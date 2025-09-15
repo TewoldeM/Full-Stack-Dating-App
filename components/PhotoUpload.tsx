@@ -3,7 +3,11 @@
 import { uploadProfilePhoto } from "@/lib/actions/profile";
 import { useRef, useState } from "react";
 
-export default function PhotoUpload({onPhotoUploaded}:{ onPhotoUploaded:(url:string) => void;}) {
+export default function PhotoUpload({
+  onPhotoUploaded,
+}: {
+  onPhotoUploaded: (url: string) => void;
+}) {
   const [uploading, setUploading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -21,10 +25,12 @@ export default function PhotoUpload({onPhotoUploaded}:{ onPhotoUploaded:(url:str
       setError("File size must be less than 5MB");
       return;
     }
+
     setUploading(true);
     setError(null);
+
     try {
-     const result = await uploadProfilePhoto(file);
+      const result = await uploadProfilePhoto(file);
       if (result.success && result.url) {
         onPhotoUploaded(result.url);
         setError(null);
@@ -37,7 +43,10 @@ export default function PhotoUpload({onPhotoUploaded}:{ onPhotoUploaded:(url:str
       setUploading(false);
     }
   }
-  function handleClick() { fileInputRef.current?.click();}
+
+  function handleClick() {
+    fileInputRef.current?.click();
+  }
 
   return (
     <div className="absolute bottom-0 right-0">
@@ -46,7 +55,6 @@ export default function PhotoUpload({onPhotoUploaded}:{ onPhotoUploaded:(url:str
         type="file"
         accept="image/*"
         className="hidden"
-        placeholder="Type...."
         onChange={handleFileSelect}
       />
       <button

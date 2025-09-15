@@ -23,18 +23,27 @@ export default function AuthPage() {
 
   async function handleAuth(e: React.FormEvent) {
     e.preventDefault();
+
     setLoading(true);
     setError("");
+
     try {
       if (isSignUp) {
-        const { data, error } = await supabase.auth.signUp({ email,password,});
+        const { data, error } = await supabase.auth.signUp({
+          email,
+          password,
+        });
+
         if (error) throw error;
         if (data.user && !data.session) {
           setError("Please check your email for a confirmation link");
           return;
         }
       } else {
-        const { error } = await supabase.auth.signInWithPassword({email,password,});
+        const { error } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
         if (error) throw error;
       }
     } catch (error: any) {
@@ -45,13 +54,13 @@ export default function AuthPage() {
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-100 to-green-100 dark:from-white dark:to-gray-50">
+    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-pink-100 to-red-100 dark:from-gray-900 dark:to-gray-800">
       <div className="max-w-md w-full space-y-8 p-8">
         <div className="text-center">
           <h1 className="text-4xl font-bold text-gray-900 dark:text-white mb-2">
             StreamMatch
           </h1>
-          <p className="text-gray-900 dark:text-gray-800">
+          <p className="text-gray-600 dark:text-gray-400">
             {isSignUp ? "Create Your Account" : "Sign in to your account"}
           </p>
         </div>
@@ -60,7 +69,7 @@ export default function AuthPage() {
           <div>
             <label
               htmlFor="email"
-              className="block text-sm font-medium text-gray-900 dark:text-gray-800"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
             >
               Email
             </label>
@@ -70,7 +79,7 @@ export default function AuthPage() {
               required
               value={email}
               onChange={(e) => setEmail(e.target.value)}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-100 dark:text-black"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-pink-500 focus:border-pink-500 dark:bg-gray-800 dark:text-white"
               placeholder="Enter your email"
             />
           </div>
@@ -78,7 +87,7 @@ export default function AuthPage() {
           <div>
             <label
               htmlFor="password"
-              className="block text-sm font-medium text-gray-900 dark:text-gray-800"
+              className="block text-sm font-medium text-gray-700 dark:text-gray-300"
             >
               Password
             </label>
@@ -88,13 +97,13 @@ export default function AuthPage() {
               required
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-              className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-100 dark:text-black"
+              className="mt-1 block w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-pink-500 focus:border-pink-500 dark:bg-gray-800 dark:text-white"
               placeholder="Enter your password"
             />
           </div>
 
           {error && (
-            <div className="text-green-600 dark:text-green-400 text-sm">
+            <div className="text-red-600 dark:text-red-400 text-sm">
               {error}
             </div>
           )}
@@ -102,7 +111,7 @@ export default function AuthPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-blue-500 to-green-500 hover:from-blue-600 hover:to-green-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
+            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-gradient-to-r from-pink-500 to-red-500 hover:from-pink-600 hover:to-red-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-pink-500 disabled:opacity-50"
           >
             {loading ? "Loading..." : isSignUp ? "Sign Up" : "Sign In"}
           </button>
@@ -111,7 +120,7 @@ export default function AuthPage() {
         <div className="text-center">
           <button
             onClick={() => setIsSignUp(!isSignUp)}
-            className="text-blue-600 dark:text-blue-400 hover:text-blue-500 dark:hover:text-blue-300 text-sm"
+            className="text-pink-600 dark:text-pink-400 hover:text-pink-500 dark:hover:text-pink-300 text-sm"
           >
             {isSignUp
               ? "Already have an account? Sign in"

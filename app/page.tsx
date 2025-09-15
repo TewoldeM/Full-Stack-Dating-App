@@ -8,25 +8,25 @@ export default function Home() {
   if (loading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-500"></div>
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-pink-500"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50 dark:from-slate-200 dark:to-slate-100 flex items-center justify-center">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-pink-50 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center">
       {/* Hero Section - Full Page */}
       <section className="relative overflow-hidden w-full">
         <div className="absolute inset-0 "></div>
         <div className="relative container mx-auto px-6 py-20 lg:py-32">
           <div className="text-center max-w-4xl mx-auto">
-            <h1 className="text-5xl lg:text-7xl font-bold text-gray-900 dark:text-black mb-6">
+            <h1 className="text-5xl lg:text-7xl font-bold text-gray-900 dark:text-white mb-6">
               Find Your Perfect
-              <span className="block bg-gradient-to-r from-blue-500 to-green-600 bg-clip-text text-transparent">
-                GetMatch
+              <span className="block bg-gradient-to-r from-pink-500 to-purple-600 bg-clip-text text-transparent">
+                StreamMatch
               </span>
             </h1>
-            <p className="text-xl lg:text-2xl text-gray-700 dark:text-gray-900 mb-8 leading-relaxed">
+            <p className="text-xl lg:text-2xl text-gray-600 dark:text-gray-300 mb-8 leading-relaxed">
               Connect with like-minded people through live streaming, meaningful
               conversations, and authentic connections.
             </p>
@@ -35,7 +35,7 @@ export default function Home() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
                   href="/matches"
-                  className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-500 to-green-600 text-white text-lg font-semibold rounded-full hover:from-blue-600 hover:to-green-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                  className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-pink-500 to-purple-600 text-white text-lg font-semibold rounded-full hover:from-pink-600 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                 >
                   Start Discovering
                   <svg
@@ -54,7 +54,7 @@ export default function Home() {
                 </Link>
                 <Link
                   href="/profile"
-                  className="inline-flex items-center px-8 py-4 border-2 border-blue-500 text-blue-500 dark:text-blue-400 text-lg font-semibold rounded-full hover:bg-blue-500 hover:text-white transition-all duration-300"
+                  className="inline-flex items-center px-8 py-4 border-2 border-pink-500 text-pink-500 dark:text-pink-400 text-lg font-semibold rounded-full hover:bg-pink-500 hover:text-white transition-all duration-300"
                 >
                   View Profile
                 </Link>
@@ -63,7 +63,7 @@ export default function Home() {
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
                   href="/auth"
-                  className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-blue-500 to-green-600 text-white text-lg font-semibold rounded-full hover:from-blue-600 hover:to-green-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                  className="inline-flex items-center px-8 py-4 bg-gradient-to-r from-pink-500 to-purple-600 text-white text-lg font-semibold rounded-full hover:from-pink-600 hover:to-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1"
                 >
                   Get Started
                   <svg
@@ -82,7 +82,7 @@ export default function Home() {
                 </Link>
                 <Link
                   href="/matches"
-                  className="inline-flex items-center px-8 py-4 border-2 border-blue-500 text-blue-500 dark:text-blue-400 text-lg font-semibold rounded-full hover:bg-blue-500 hover:text-white transition-all duration-300"
+                  className="inline-flex items-center px-8 py-4 border-2 border-pink-500 text-pink-500 dark:text-pink-400 text-lg font-semibold rounded-full hover:bg-pink-500 hover:text-white transition-all duration-300"
                 >
                   Explore
                 </Link>

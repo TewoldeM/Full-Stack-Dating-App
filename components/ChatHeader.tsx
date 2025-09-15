@@ -16,6 +16,8 @@ export default function ChatHeader({ user, onVideoCall }: ChatHeaderProps) {
         <div className="flex items-center space-x-4">
           <button
             onClick={() => router.back()}
+            title="Go back"
+            aria-label="Go back"
             className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors duration-200"
           >
             <svg
@@ -31,6 +33,7 @@ export default function ChatHeader({ user, onVideoCall }: ChatHeaderProps) {
                 d="M15 19l-7-7 7-7"
               />
             </svg>
+            <span className="sr-only">Go back</span>
           </button>
 
           <div className="flex items-center space-x-3">
