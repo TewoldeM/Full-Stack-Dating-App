@@ -138,12 +138,8 @@ export async function createVideoCall(otherUserId: string) {
   }
 
   const { data: matches, error: matchError } = await supabase
-    .from("matches")
-    .select("*")
-    .or(
-      `and(user1_id.eq.${user.id},user2_id.eq.${otherUserId}),and(user1_id.eq.${otherUserId},user2_id.eq.${user.id})`
-    )
-    .eq("is_active", true)
+    .from("matches").select("*").or(
+    `and(user1_id.eq.${user.id},user2_id.eq.${otherUserId}),and(user1_id.eq.${otherUserId},user2_id.eq.${user.id})`).eq("is_active", true)
     .single();
 
   if (matchError || !matches) {
