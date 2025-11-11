@@ -2,10 +2,7 @@
 
 import { uploadProfilePhoto } from "@/lib/actions/profile";
 import { useRef, useState } from "react";
-
-export default function PhotoUpload({
-  onPhotoUploaded,
-}: {
+export default function PhotoUpload({onPhotoUploaded,}: {
   onPhotoUploaded: (url: string) => void;
 }) {
   const [uploading, setUploading] = useState<boolean>(false);
@@ -25,7 +22,6 @@ export default function PhotoUpload({
       setError("File size must be less than 5MB");
       return;
     }
-
     setUploading(true);
     setError(null);
 
@@ -54,6 +50,8 @@ export default function PhotoUpload({
         ref={fileInputRef}
         type="file"
         accept="image/*"
+        title="Upload profile photo"
+        aria-label="Upload profile photo"
         className="hidden"
         onChange={handleFileSelect}
       />

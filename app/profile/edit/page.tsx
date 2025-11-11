@@ -1,10 +1,7 @@
 "use client";
 
 import PhotoUpload from "@/components/PhotoUpload";
-import {
-  getCurrentUserProfile,
-  updateUserProfile,
-} from "@/lib/actions/profile";
+import {getCurrentUserProfile,updateUserProfile,} from "@/lib/actions/profile";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -93,20 +90,20 @@ export default function EditProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 to-red-50 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-dark ">
       <div className="container mx-auto px-4 py-8">
         <header className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
+          <h1 className="text-3xl font-bold text-gray-200  mb-2">
             Edit Profile
           </h1>
-          <p className="text-gray-600 dark:text-gray-400">
+          <p className="text-gray-500 dark:text-gray-400">
             Update your profile information
           </p>
         </header>
 
         <div className="max-w-2xl mx-auto">
           <form
-            className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8"
+            className=" rounded-2xl p-8 shadow-pink-400 shadow-md bg-gray-900"
             onSubmit={handleFormSubmit}
           >
             <div className="mb-8">
@@ -159,7 +156,7 @@ export default function EditProfilePage() {
                   value={formData.full_name}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent dark:bg-gray-800 "
                   placeholder="Enter your full name"
                 />
               </div>
@@ -167,7 +164,7 @@ export default function EditProfilePage() {
               <div>
                 <label
                   htmlFor="username"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                  className="block text-sm font-medium text-gray-800 dark:text-gray-300 mb-2"
                 >
                   Username *
                 </label>
@@ -178,7 +175,7 @@ export default function EditProfilePage() {
                   value={formData.username}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent dark:bg-gray-800 "
                   placeholder="Choose a username"
                 />
               </div>
@@ -188,7 +185,7 @@ export default function EditProfilePage() {
               <div>
                 <label
                   htmlFor="gender"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                  className="block text-sm font-medium text-gray-800 dark:text-gray-300 mb-2"
                 >
                   Gender *
                 </label>
@@ -198,7 +195,7 @@ export default function EditProfilePage() {
                   value={formData.gender}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent dark:bg-gray-800 "
                 >
                   <option value="male">Male</option>
                   <option value="female">Female</option>
@@ -209,7 +206,7 @@ export default function EditProfilePage() {
               <div>
                 <label
                   htmlFor="birthdate"
-                  className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                  className="block text-sm font-medium text-gray-800 dark:text-gray-300 mb-2"
                 >
                   Birthday *
                 </label>
@@ -220,7 +217,7 @@ export default function EditProfilePage() {
                   value={formData.birthdate}
                   onChange={handleInputChange}
                   required
-                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent dark:bg-gray-700 dark:text-white"
+                  className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent dark:bg-gray-800 "
                 />
               </div>
             </div>
@@ -228,7 +225,7 @@ export default function EditProfilePage() {
             <div className="mb-8">
               <label
                 htmlFor="bio"
-                className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+                className="block text-sm font-medium text-gray-800 dark:text-gray-300 mb-2"
               >
                 About Me *
               </label>
@@ -240,7 +237,7 @@ export default function EditProfilePage() {
                 required
                 rows={4}
                 maxLength={500}
-                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent dark:bg-gray-700 dark:text-white resize-none"
+                className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:outline-none focus:ring-2 focus:ring-pink-500 focus:border-transparent dark:bg-gray-800  resize-none"
                 placeholder="Tell others about yourself..."
               />
               <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">

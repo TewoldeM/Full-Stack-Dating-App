@@ -25,10 +25,7 @@ export interface UserProfile {
 }
 
 export interface UserPreferences {
-  age_range: {
-    min: number;
-    max: number;
-  };
+  age_range: {min:number;  max: number;};
   distance: number;
   gender_preference: ("male" | "female" | "other")[];
 }
@@ -97,7 +94,7 @@ export default function ProfilePage() {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-pink-50 to-red-50 dark:from-gray-900 dark:to-gray-800">
+    <div className="min-h-screen bg-black">
       <div className="container mx-auto px-4 py-8">
         <header className="text-center mb-8">
           <h1 className="text-3xl font-bold text-gray-900 dark:text-white mb-2">
@@ -111,7 +108,7 @@ export default function ProfilePage() {
         <div className="max-w-4xl mx-auto">
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div className="lg:col-span-2">
-              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-8">
+              <div className="bg-gray-900 rounded-2xl shadow-md p-8 shadow-pink-400">
                 <div className="flex items-center space-x-6 mb-8">
                   <div className="relative">
                     <div className="w-24 h-24 rounded-full overflow-hidden">
@@ -200,7 +197,7 @@ export default function ProfilePage() {
             </div>
 
             <div className="space-y-6">
-              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6">
+              <div className="bg-gray-900 rounded-2xl shadow-sm p-6 shadow-pink-400">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
                   Quick Actions
                 </h3>
@@ -246,12 +243,12 @@ export default function ProfilePage() {
                 </div>
               </div>
 
-              <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6">
+              <div className="bg-gray-900 rounded-2xl shadow-sm shadow-pink-400 p-6">
                 <h3 className="text-lg font-semibold text-gray-900 dark:text-white mb-4">
                   Account
                 </h3>
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between p-3 rounded-lg bg-gray-50 dark:bg-gray-700">
+                  <div className="flex items-center justify-between p-3 rounded-lg bg-gray-500 dark:bg-gray-800">
                     <span className="text-gray-900 dark:text-white">
                       Username
                     </span>

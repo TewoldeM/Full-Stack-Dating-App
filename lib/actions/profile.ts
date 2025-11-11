@@ -9,7 +9,7 @@ export async function getCurrentUserProfile() {
   if (!user) {
     return null;
   } 
-  const { data:profile, error } = await supabase.from("users").select("*").eq("id", user.id).single();
+  const {data:profile, error } = await supabase.from("users").select("*").eq("id", user.id).single();
   if (error) {
     console.error("Error Fetching profile:", error);
     return null;
