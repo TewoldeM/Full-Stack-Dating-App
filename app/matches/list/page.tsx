@@ -5,11 +5,12 @@ import { getUserMatches } from "@/lib/actions/matches";
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { calculateAge } from "@/lib/helpers/calculate-age";
+import Image from "next/image";
 
 const MatchsListPage = () => {
   const [matches, setMatches] = useState<UserProfile[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  // const [, setError] = useState<string | null>(null);
   useEffect(() => {
     async function loadMatches() {
       try {
@@ -17,7 +18,7 @@ const MatchsListPage = () => {
         setMatches(userMatches);
         console.log(userMatches);
       } catch (error) {
-        setError("Failed to load matches.");
+        console.log("error:",error)
       } finally {
         setLoading(false);
       }
@@ -76,7 +77,7 @@ const MatchsListPage = () => {
                 >
                   <div className="flex items-center space-x-4">
                     <div className="relative w-16 h-16 rounded-full overflow-hidden flex-shrink-0">
-                      <img
+                      <Image
                         src={match.avatar_url}
                         alt={match.full_name}
                         className="w-full h-full object-cover"

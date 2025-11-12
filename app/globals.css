@@ -23,9 +23,34 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  
 }
-
+ @layer base {
+  :root{
+    --gradient-primary: linear-gradient(135deg, hsl(346, 100%, 58%), hsl(316, 100%, 58%));
+    --gradient-card: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.1));
+    --gradient-border: linear-gradient(135deg, hsl(346, 100%, 58%), hsl(316, 100%, 58%));
+    /* Shadows */
+    --shadow-glow: 0 0 30px rgba(255, 49, 99, 0.3);
+    --shadow-card: 0 10px 40px rgba(0, 0, 0, 0.5);
+  }
+ }
 @layer components {
+  .bg-gradient-card {
+    background: var(--gradient-card);
+  }
+
+  .bg-gradient-primary {
+    background: var(--gradient-primary);
+  }
+
+  .shadow-card {
+    box-shadow: var(--shadow-card);
+  }
+
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
   .card-swipe {
     @apply relative overflow-hidden rounded-2xl shadow-lg bg-white dark:bg-gray-800;
   }
@@ -37,7 +62,8 @@ body {
   .chat-container {
     @apply bg-white dark:bg-gray-900 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700;
   }
-
+/* Custom gradients for dating app */
+  
   /* Custom scrollbar styles for chat */
   .chat-scrollbar {
     scrollbar-width: thin;

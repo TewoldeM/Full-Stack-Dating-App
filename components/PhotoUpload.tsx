@@ -6,7 +6,7 @@ export default function PhotoUpload({onPhotoUploaded,}: {
   onPhotoUploaded: (url: string) => void;
 }) {
   const [uploading, setUploading] = useState<boolean>(false);
-  const [error, setError] = useState<string | null>(null);
+  const [, setError] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   async function handleFileSelect(event: React.ChangeEvent<HTMLInputElement>) {
@@ -34,7 +34,7 @@ export default function PhotoUpload({onPhotoUploaded,}: {
         setError(result.error ?? "Failed to upload photo.");
       }
     } catch (err) {
-      setError("Failed to change photo");
+      console.log(err)
     } finally {
       setUploading(false);
     }

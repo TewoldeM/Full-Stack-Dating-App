@@ -1,9 +1,21 @@
 import { UserProfile } from "@/app/profile/page";
-import {createOrGetChannel,createVideoCall,getStreamUserToken,} from "@/lib/actions/stream";
+import {
+  createOrGetChannel,
+  createVideoCall,
+  getStreamUserToken,
+} from "@/lib/actions/stream";
 import { useRouter } from "next/navigation";
-import {RefObject,useEffect,useImperativeHandle,useRef,useState,} from "react";
+import {
+  RefObject,
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
+} from "react";
 import { Channel, Event, StreamChat } from "stream-chat";
 import VideoCall from "./VideoCall";
+import Image from "next/image";
 
 interface Message {
   id: string;
@@ -13,9 +25,22 @@ interface Message {
   user_id: string;
 }
 
-export default function StreamChatInterface({otherUser,ref}: {otherUser: UserProfile; ref: RefObject<{ handleVideoCall: () => void } | null>;}) {
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+interface VideoCallInvitationMessage {
+  text: string;
+  call_id: string;
+  caller_id: string;
+  caller_name: string;
+}
+
+export default function StreamChatInterface({
+  otherUser,
+  ref,
+}: {
+  otherUser: UserProfile;
+  ref: RefObject<{ handleVideoCall: () => void } | null>;
+}) {
+  const [, setLoading] = useState(true);
+  const [, setError] = useState<string | null>(null);
   const [currentUserId, setCurrentUserId] = useState<string>("");
   const [messages, setMessages] = useState<Message[]>([]);
   const [newMessage, setNewMessage] = useState<string>("");
@@ -44,14 +69,14 @@ export default function StreamChatInterface({otherUser,ref}: {otherUser: UserPro
     setShowScrollButton(false);
   }
 
-  function handleScroll() {
+  const handleScroll = useCallback(() => {
     if (messagesContainerRef.current) {
       const { scrollTop, scrollHeight, clientHeight } =
         messagesContainerRef.current;
       const isNearBottom = scrollHeight - scrollTop - clientHeight < 100;
       setShowScrollButton(!isNearBottom);
     }
-  }
+  }, []); // no dependencies since it only uses stable refs and state setter
 
   useEffect(() => {
     scrollToBottom();
@@ -120,7 +145,7 @@ export default function StreamChatInterface({otherUser,ref}: {otherUser: UserPro
         chatChannel.on("message.new", (event: Event) => {
           if (event.message) {
             if (event.message.text?.includes(`📹 Video call invitation`)) {
-              const customData = event.message as any;
+              const customData = event.message as unknown as VideoCallInvitationMessage;
 
               if (customData.caller_id !== userId) {
                 setIncomingCallId(customData.call_id);
@@ -167,6 +192,7 @@ export default function StreamChatInterface({otherUser,ref}: {otherUser: UserPro
         setChannel(chatChannel);
       } catch (error) {
         router.push("/chat");
+        console.log(error);
       } finally {
         setLoading(false);
       }
@@ -181,7 +207,7 @@ export default function StreamChatInterface({otherUser,ref}: {otherUser: UserPro
         client.disconnectUser();
       }
     };
-  }, [otherUser]);
+  }, [router, client, otherUser]);
 
   async function handleVideoCall() {
     try {
@@ -377,7 +403,7 @@ export default function StreamChatInterface({otherUser,ref}: {otherUser: UserPro
                 channel.keystroke();
               }
             }}
-            onFocus={(e) => {
+            onFocus={() => {
               if (channel) {
                 channel.keystroke();
               }
@@ -414,7 +440,7 @@ export default function StreamChatInterface({otherUser,ref}: {otherUser: UserPro
           <div className="bg-white dark:bg-gray-800 rounded-2xl p-8 max-w-sm mx-4 shadow-2xl">
             <div className="text-center">
               <div className="w-20 h-20 rounded-full overflow-hidden mx-auto mb-4 border-4 border-pink-500">
-                <img
+                <Image
                   src={otherUser.avatar_url}
                   alt={otherUser.full_name}
                   className="w-full h-full object-cover"

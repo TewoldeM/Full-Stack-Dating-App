@@ -4,7 +4,7 @@ import { getUserMatches } from "@/lib/actions/matches";
 import { useEffect, useState } from "react";
 import { UserProfile } from "../profile/page";
 import Link from "next/link";
-
+import Image from "next/image";
 interface ChatData {
   id: string;
   user: UserProfile;
@@ -113,7 +113,7 @@ export default function ChatPage() {
                 >
                   <div className="flex items-center p-6 border-b border-gray-200 dark:border-gray-700 last:border-b-0">
                     <div className="relative w-16 h-16 rounded-full overflow-hidden flex-shrink-0">
-                      <img
+                      <Image
                         src={chat.user.avatar_url}
                         alt={chat.user.full_name}
                         className="w-full h-full object-cover"

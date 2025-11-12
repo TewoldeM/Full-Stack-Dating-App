@@ -1,13 +1,16 @@
 "use server";
 
-import { UserProfile } from "@/app/profile/page";
+import { UserProfile, UserPreferences } from "@/app/profile/page";
 import { createClient } from "../supabase/server";
 
 export async function getPotentialMatches(): Promise<UserProfile[]> {
   const supabase = await createClient();
 
   // 1️⃣ Check user authentication
-  const {data: { user },error: userError,} = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
   console.log("🔹 Authenticated user:", user);
   if (userError) console.error("❌ getUser error:", userError);
   if (!user) throw new Error("Not authenticated.");
@@ -18,6 +21,7 @@ export async function getPotentialMatches(): Promise<UserProfile[]> {
     .select("*")
     .neq("id", user.id)
     .limit(50);
+
   console.log("🔹 Potential matches from DB:", potentialMatches?.length);
   if (error) {
     console.error("❌ Failed to fetch potential matches:", error);
@@ -30,15 +34,15 @@ export async function getPotentialMatches(): Promise<UserProfile[]> {
     .select("preferences")
     .eq("id", user.id)
     .single();
-  console.log("🔹 User preferences:", userPrefs);
 
+  console.log("🔹 User preferences:", userPrefs);
   if (prefsError) {
     console.error("❌ Failed to get user preferences:", prefsError);
     throw new Error("Failed to get user preferences");
   }
 
   // 4️⃣ Filter matches
-  const currentUserPrefs = userPrefs.preferences as any;
+  const currentUserPrefs = userPrefs.preferences as UserPreferences;
   const genderPreference = currentUserPrefs?.gender_preference || [];
   console.log("🔹 Gender preference:", genderPreference);
 
@@ -74,29 +78,52 @@ export async function getPotentialMatches(): Promise<UserProfile[]> {
   return finalMatches;
 }
 
-
 export async function likeUser(toUserId: string) {
-  
   const supabase = await createClient();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  const { data: { user }, } = await supabase.auth.getUser();
-  
-  if (!user) { throw new Error("Not authenticated.");}
+  if (!user) {
+    throw new Error("Not authenticated.");
+  }
 
-  const { error: likeError } = await supabase.from("likes").insert({from_user_id: user.id,to_user_id: toUserId,});
+  const { error: likeError } = await supabase.from("likes").insert({
+    from_user_id: user.id,
+    to_user_id: toUserId,
+  });
 
-  if (likeError) {throw new Error("Failed to create like");}
+  if (likeError) {
+    throw new Error("Failed to create like");
+  }
 
-  const { data: existingLike, error: checkError } = await supabase.from("likes").select("*").eq("from_user_id", toUserId).eq("to_user_id", user.id).single();
+  const { data: existingLike, error: checkError } = await supabase
+    .from("likes")
+    .select("*")
+    .eq("from_user_id", toUserId)
+    .eq("to_user_id", user.id)
+    .single();
 
-  if (checkError && checkError.code !== "PGRST116") {throw new Error("Failed to check for match");}
+  if (checkError && checkError.code !== "PGRST116") {
+    throw new Error("Failed to check for match");
+  }
 
   if (existingLike) {
-    const { data: matchedUser, error: userError } = await supabase.from("users").select("*").eq("id", toUserId).single();
+    const { data: matchedUser, error: userError } = await supabase
+      .from("users")
+      .select("*")
+      .eq("id", toUserId)
+      .single();
 
-    if (userError) {throw new Error("Failed to fetch matched user");}
+    if (userError) {
+      throw new Error("Failed to fetch matched user");
+    }
 
-    return {success: true,isMatch: true,matchedUser: matchedUser as UserProfile};
+    return {
+      success: true,
+      isMatch: true,
+      matchedUser: matchedUser as UserProfile,
+    };
   }
 
   return { success: true, isMatch: false };
@@ -104,22 +131,38 @@ export async function likeUser(toUserId: string) {
 
 export async function getUserMatches() {
   const supabase = await createClient();
-  const {data: { user },} = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
-  if (!user) {throw new Error("Not authenticated.");}
+  if (!user) {
+    throw new Error("Not authenticated.");
+  }
 
-  const { data: matches, error } = await supabase.from("matches").select("*").
-        or(`user1_id.eq.${user.id}, user2_id.eq.${user.id}`).eq("is_active", true);
-  if (error) {throw new Error("Failed to fetch matches");}
+  const { data: matches, error } = await supabase
+    .from("matches")
+    .select("*")
+    .or(`user1_id.eq.${user.id}, user2_id.eq.${user.id}`)
+    .eq("is_active", true);
+
+  if (error) {
+    throw new Error("Failed to fetch matches");
+  }
 
   const matchedUsers: UserProfile[] = [];
-
   for (const match of matches || []) {
-    const otherUserId = match.user1_id === user.id ? match.user2_id : match.user1_id;
+    const otherUserId =
+      match.user1_id === user.id ? match.user2_id : match.user1_id;
 
-    const { data: otherUser, error: userError } = await supabase.from("users").select("*").eq("id", otherUserId).single();
+    const { data: otherUser, error: userError } = await supabase
+      .from("users")
+      .select("*")
+      .eq("id", otherUserId)
+      .single();
 
-    if (userError) {continue;}
+    if (userError) {
+      continue;
+    }
 
     matchedUsers.push({
       id: otherUser.id,

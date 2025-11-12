@@ -15,7 +15,7 @@ export async function updateSession(request: NextRequest) {
           return request.cookies.getAll();
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) =>
+          cookiesToSet.forEach(({ name, value,}) =>
             request.cookies.set(name, value)
           );
           supabaseResponse = NextResponse.next({
@@ -42,7 +42,7 @@ export async function updateSession(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
   // Public routes that don't require authentication
-  const publicRoutes = ["/", "/auth"];
+  // const publicRoutes = ["/", "/auth"];
 
   // Protected routes that require authentication
   const protectedRoutes = ["/matches", "/chat", "/profile"];
@@ -53,9 +53,9 @@ export async function updateSession(request: NextRequest) {
   );
 
   // Check if the current path is public
-  const isPublicRoute = publicRoutes.some(
-    (route) => pathname === route || pathname.startsWith(route)
-  );
+  // const isPublicRoute = publicRoutes.some(
+  //   (route) => pathname === route || pathname.startsWith(route)
+  // );
 
   // If user is not authenticated and trying to access protected routes
   if (!user && isProtectedRoute) {

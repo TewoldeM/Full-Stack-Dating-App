@@ -2,6 +2,7 @@
 
 import PhotoUpload from "@/components/PhotoUpload";
 import {getCurrentUserProfile,updateUserProfile,} from "@/lib/actions/profile";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
@@ -35,7 +36,7 @@ export default function EditProfilePage() {
           });
         }
       } catch (err) {
-        setError("Failed to load profile");
+        console.log(err);
       } finally {
         setLoading(false);
       }
@@ -58,7 +59,7 @@ export default function EditProfilePage() {
         setError(result.error || "Failed to update profile.");
       }
     } catch (err) {
-      setError("Failed to update profile.");
+      console.log(err)
     } finally {
       setSaving(false);
     }
@@ -113,7 +114,7 @@ export default function EditProfilePage() {
               <div className="flex items-center space-x-6">
                 <div className="relative">
                   <div className="w-24 h-24 rounded-full overflow-hidden">
-                    <img
+                    <Image
                       src={formData.avatar_url || "/default-avatar.png"}
                       alt="Profile"
                       className="w-full h-full object-cover"

@@ -46,8 +46,8 @@ export default function AuthPage() {
         });
         if (error) throw error;
       }
-    } catch (error: any) {
-      setError(error.message);
+    } catch (error) {
+      console.log("error", error);
     } finally {
       setLoading(false);
     }

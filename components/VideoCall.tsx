@@ -9,8 +9,7 @@ import {
   StreamVideoClient,
 } from "@stream-io/video-react-sdk";
 import { useEffect, useState } from "react";
-
-import "@stream-io/video-react-sdk/dist/css/styles.css";
+import "@stream-io/video-react-sdk/dist/css/styles.css"; // ✅ type-safe now
 
 interface VideoCallProps {
   callId: string;
@@ -33,9 +32,7 @@ export default function VideoCall({
     let isMounted = true;
 
     async function initializeVideoCall() {
-      if (hasJoined) {
-        return;
-      }
+      if (hasJoined) return;
 
       try {
         setError(null);
@@ -46,11 +43,7 @@ export default function VideoCall({
 
         const videoClient = new StreamVideoClient({
           apiKey: process.env.NEXT_PUBLIC_STREAM_API_KEY!,
-          user: {
-            id: userId!,
-            name: userName,
-            image: userImage,
-          },
+          user: { id: userId!, name: userName, image: userImage },
           token,
         });
 
@@ -69,8 +62,8 @@ export default function VideoCall({
         setClient(videoClient);
         setCall(videoCall);
         setHasJoined(true);
-      } catch (error) {
-        console.error(error);
+      } catch (err) {
+        console.error(err);
         setError("Failed to initiate call");
       } finally {
         setLoading(false);
@@ -81,17 +74,12 @@ export default function VideoCall({
 
     return () => {
       isMounted = false;
-      if (call && hasJoined) {
-        call.leave();
-      }
-
-      if (client) {
-        client.disconnectUser();
-      }
+      if (call && hasJoined) call.leave();
+      if (client) client.disconnectUser();
     };
-  }, [callId, isIncoming, hasJoined]);
+  }, [call, client, callId, isIncoming, hasJoined]);
 
-  if (loading) {
+  if (loading)
     return (
       <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
         <div className="text-center text-white">
@@ -102,9 +90,8 @@ export default function VideoCall({
         </div>
       </div>
     );
-  }
 
-  if (error) {
+  if (error)
     return (
       <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
         <div className="text-center text-white max-w-md mx-auto p-8">
@@ -122,9 +109,8 @@ export default function VideoCall({
         </div>
       </div>
     );
-  }
 
-  if (!client || !call) {
+  if (!client || !call)
     return (
       <div className="fixed inset-0 bg-black bg-opacity-75 flex items-center justify-center z-50">
         <div className="text-center text-white">
@@ -133,7 +119,6 @@ export default function VideoCall({
         </div>
       </div>
     );
-  }
 
   return (
     <div className="fixed inset-0 bg-black z-50">

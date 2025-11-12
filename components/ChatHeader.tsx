@@ -2,6 +2,7 @@
 
 import { UserProfile } from "@/app/profile/page";
 import { calculateAge } from "@/lib/helpers/calculate-age";
+import Image from "next/image";
 import { useRouter } from "next/navigation";
 
 interface ChatHeaderProps {
@@ -38,7 +39,7 @@ export default function ChatHeader({ user, onVideoCall }: ChatHeaderProps) {
 
           <div className="flex items-center space-x-3">
             <div className="relative w-12 h-12 rounded-full overflow-hidden">
-              <img
+              <Image
                 src={user.avatar_url}
                 alt={user.full_name}
                 className="w-full h-full object-cover"
