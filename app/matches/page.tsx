@@ -1,19 +1,20 @@
 "use client";
-
+import { getPotentialMatches, likeUser } from "@/lib/actions/matches";
 import { useEffect, useState } from "react";
 import { UserProfile } from "../profile/page";
 import { useRouter } from "next/navigation";
-import { getPotentialMatches, likeUser } from "@/lib/actions/matches";
-import MatchNotification from "@/components/MatchNotification";
 import MatchCard from "@/components/MatchCard";
 import MatchButtons from "@/components/MatchButtons";
+import MatchNotification from "@/components/MatchNotification";
 
 export default function MatchesPage() {
   const [potentialMatches, setPotentialMatches] = useState<UserProfile[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentIndex, setCurrentIndex] = useState(0);
+
   const [showMatchNotification, setShowMatchNotification] = useState(false);
   const [matchedUser, setMatchedUser] = useState<UserProfile | null>(null);
+
   const router = useRouter();
 
   useEffect(() => {
@@ -22,13 +23,15 @@ export default function MatchesPage() {
         const potentialMatchesData = await getPotentialMatches();
         setPotentialMatches(potentialMatchesData);
       } catch (error) {
-        console.log(error);
+        console.error(error);
       } finally {
         setLoading(false);
       }
     }
+
     loadUsers();
   }, []);
+
   async function handleLike() {
     if (currentIndex < potentialMatches.length) {
       const likedUser = potentialMatches[currentIndex];
@@ -47,17 +50,20 @@ export default function MatchesPage() {
       }
     }
   }
+
   function handlePass() {
     if (currentIndex < potentialMatches.length - 1) {
       setCurrentIndex((prev) => prev + 1);
     }
   }
+
   function handleCloseMatchNotification() {}
 
   function handleStartChat() {}
+
   if (loading) {
     return (
-      <div className="h-full bg-gradient-to-br from-pink-50 to-red-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center">
+      <div className="h-full bg-gray-900 justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-pink-500 mx-auto"></div>
           <p className="mt-4 text-gray-600 dark:text-gray-400">
@@ -67,9 +73,10 @@ export default function MatchesPage() {
       </div>
     );
   }
+
   if (currentIndex >= potentialMatches.length) {
     return (
-      <div className="h-full bg-gradient-to-br from-pink-50 to-red-50 dark:from-gray-900 dark:to-gray-800 flex items-center justify-center">
+      <div className="h-full bg-gray-900 flex items-center justify-center">
         <div className="text-center max-w-md mx-auto p-8">
           <div className="w-24 h-24 bg-gradient-to-r from-pink-500 to-red-500 rounded-full flex items-center justify-center mx-auto mb-6">
             <span className="text-4xl">💕</span>
@@ -97,10 +104,11 @@ export default function MatchesPage() {
       </div>
     );
   }
+
   const currentPotentialMatch = potentialMatches[currentIndex];
 
   return (
-    <div className="h-full overflow-y-auto bg-gradient-to-br from-pink-50 to-red-50 dark:from-gray-900 dark:to-gray-800">
+    <div className="h-full overflow-y-auto bg-gray-900">
       <div className="container mx-auto px-4 py-8">
         <header className="mb-8">
           <div className="flex items-center justify-between mb-4">

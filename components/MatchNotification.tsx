@@ -7,11 +7,7 @@ interface MatchNotificationProps {
   onStartChat: () => void;
 }
 
-export default function MatchNotification({
-  match,
-  onClose,
-  onStartChat,
-}: MatchNotificationProps) {
+export default function MatchNotification({match,onClose,onStartChat,}: MatchNotificationProps) {
   const [isVisible, setIsVisible] = useState<boolean>(true);
 
   useEffect(() => {

@@ -5,43 +5,75 @@ import { createClient } from "../supabase/server";
 
 export async function getPotentialMatches(): Promise<UserProfile[]> {
   const supabase = await createClient();
-  const {data: { user },} = await supabase.auth.getUser();
 
-  if (!user) {throw new Error("Not authenticated.");}
+  // 1️⃣ Check user authentication
+  const {data: { user },error: userError,} = await supabase.auth.getUser();
+  console.log("🔹 Authenticated user:", user);
+  if (userError) console.error("❌ getUser error:", userError);
+  if (!user) throw new Error("Not authenticated.");
 
-  const { data:potentialMatches, error } = await supabase.from("users").select("*").neq("id", user.id).limit(50);
+  // 2️⃣ Fetch all other users
+  const { data: potentialMatches, error } = await supabase
+    .from("users")
+    .select("*")
+    .neq("id", user.id)
+    .limit(50);
+  console.log("🔹 Potential matches from DB:", potentialMatches?.length);
+  if (error) {
+    console.error("❌ Failed to fetch potential matches:", error);
+    throw new Error("failed to fetch potential matches");
+  }
 
-  if (error) { throw new Error("failed to fetch potential matches"); }
-  
-  const { data: userPrefs, error: prefsError } = await supabase.from("users").select("preferences").eq("id", user.id).single();
+  // 3️⃣ Fetch current user preferences
+  const { data: userPrefs, error: prefsError } = await supabase
+    .from("users")
+    .select("preferences")
+    .eq("id", user.id)
+    .single();
+  console.log("🔹 User preferences:", userPrefs);
 
-  if (prefsError) {throw new Error("Failed to get user preferences");}
+  if (prefsError) {
+    console.error("❌ Failed to get user preferences:", prefsError);
+    throw new Error("Failed to get user preferences");
+  }
 
+  // 4️⃣ Filter matches
   const currentUserPrefs = userPrefs.preferences as any;
   const genderPreference = currentUserPrefs?.gender_preference || [];
-  const filteredMatches = potentialMatches.filter((match) => {
-    if (!genderPreference || genderPreference.length === 0) { return true; }
-    
-      return genderPreference.includes(match.gender);} ).map((match) => ({
-        id: match.id,
-        full_name: match.full_name,
-        username: match.username,
-        email: "",
-        gender: match.gender,
-        birthdate: match.birthdate,
-        bio: match.bio,
-        avatar_url: match.avatar_url,
-        preferences: match.preferences,
-        location_lat: undefined,
-        location_lng: undefined,
-        last_active: new Date().toISOString(),
-        is_verified: true,
-        is_online: false,
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString(),
-      })) || [];
-  return filteredMatches;
+  console.log("🔹 Gender preference:", genderPreference);
+
+  const filteredMatches =
+    potentialMatches?.filter((match) => {
+      if (!genderPreference || genderPreference.length === 0) return true;
+      return genderPreference.includes(match.gender);
+    }) ?? [];
+
+  console.log("🔹 Filtered matches count:", filteredMatches.length);
+
+  // 5️⃣ Map and return
+  const finalMatches = filteredMatches.map((match) => ({
+    id: match.id,
+    full_name: match.full_name,
+    username: match.username,
+    email: "",
+    gender: match.gender,
+    birthdate: match.birthdate,
+    bio: match.bio,
+    avatar_url: match.avatar_url,
+    preferences: match.preferences,
+    location_lat: undefined,
+    location_lng: undefined,
+    last_active: new Date().toISOString(),
+    is_verified: true,
+    is_online: false,
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString(),
+  }));
+
+  console.log("✅ Returning matches:", finalMatches.length);
+  return finalMatches;
 }
+
 
 export async function likeUser(toUserId: string) {
   

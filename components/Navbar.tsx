@@ -5,7 +5,7 @@ import Link from "next/link";
 export default function Navbar() {
   const { signOut, user } = useAuth();
   return (
-    <nav className="relative z-50 bg-slate-900 border-b border-gray-200/50 dark:border-gray-700/50">
+    <nav className="relative z-50 bg-gray-900 border-b border-gray-200/50 dark:border-gray-700/50">
       <div className="container mx-auto px-6">
         <div className="flex items-center justify-between h-16">
           <Link href="/" className="flex items-center space-x-3">

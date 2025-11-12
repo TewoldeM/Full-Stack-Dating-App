@@ -1,13 +1,20 @@
 import { UserProfile } from "@/app/profile/page";
 import { calculateAge } from "@/lib/helpers/calculate-age";
 import Image from "next/image";
+
 export default function MatchCard({ user }: { user: UserProfile }) {
+  // Add a fallback for avatar_url to prevent invalid src errors
+  const avatarSrc =
+    user.avatar_url && user.avatar_url.trim() !== ""
+      ? user.avatar_url
+      : "/default-avatar.png";
+
   return (
     <div className="relative w-full max-w-sm mx-auto">
       <div className="card-swipe aspect-[3/4] overflow-hidden">
         <div className="relative w-full h-full">
           <Image
-            src={user.avatar_url}
+            src={avatarSrc}
             alt={user.full_name}
             fill
             className={`object-cover transition-opacity duration-300`}
