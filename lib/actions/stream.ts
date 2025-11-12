@@ -5,20 +5,13 @@ import { createClient } from "../supabase/server";
 
 export async function getStreamUserToken() {
   const supabase = await createClient();
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const {data: { user },} = await supabase.auth.getUser();
 
   if (!user) {
     return { success: false, error: "User not authenticated" };
   }
 
-  const { data: userData, error: userError } = await supabase
-    .from("users")
-    .select("full_name, avatar_url")
-    .eq("id", user.id)
-    .single();
+  const { data: userData, error: userError } = await supabase.from("users").select("full_name, avatar_url").eq("id", user.id).single();
 
   if (userError) {
     console.error("Error fetching user data:", userError);
@@ -32,26 +25,16 @@ export async function getStreamUserToken() {
 
   const token = serverClient.createToken(user.id);
 
-  await serverClient.upsertUser({
-    id: user.id,
-    name: userData.full_name,
-    image: userData.avatar_url || undefined,
+  await serverClient.upsertUser({id:user.id, name: userData.full_name, image: userData.avatar_url || undefined,
   });
 
-  return {
-    token,
-    userId: user.id,
-    userName: userData.full_name,
-    userImage: userData.avatar_url || undefined,
-  };
+  return {token,userId:user.id,userName:userData.full_name,userImage:userData.avatar_url || undefined,};
 }
 
 export async function createOrGetChannel(otherUserId: string) {
   const supabase = await createClient();
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const {data: { user },} = await supabase.auth.getUser();
 
   if (!user) {
     return { success: false, error: "User not authenticated" };
